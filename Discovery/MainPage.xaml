@@ -1,11 +1,125 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:parallaxView="clr-namespace:Syncfusion.XForms.ParallaxView;assembly=Syncfusion.SfParallaxView.XForms"
-			x:Class="Discovery.MainPage">
+             xmlns:list="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:parallax="clr-namespace:Syncfusion.XForms.ParallaxView;assembly=Syncfusion.SfParallaxView.XForms"
+             xmlns:navigationdrawer="clr-namespace:Syncfusion.SfNavigationDrawer.XForms;assembly=Syncfusion.SfNavigationDrawer.XForms"
+			 x:Class="Discovery.MainPage">
 
-	<Label Text="Welcome to Syncfusion Xamarin.Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
+
+    <ContentPage.Content>
+        <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer" DrawerHeaderHeight="40" DrawerWidth="200">
+            <navigationdrawer:SfNavigationDrawer.ContentView>
+                <Grid x:Name="mainContentView" 
+                      BackgroundColor="#fff">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <StackLayout BackgroundColor="#000" 
+                                 Orientation="Horizontal"
+                                 x:Name="navContentViewStack">
+                        
+                        <Button x:Name="hamburgerButton" 
+                                HeightRequest="50" 
+                                WidthRequest="50" 
+                                HorizontalOptions="Start" 
+                                FontSize="20" 
+                                BackgroundColor="#000" 
+                                Clicked="hamburgerButton_Clicked"/>
+                        
+                        <Label x:Name="headerLabel" 
+                               HeightRequest="50" 
+                               HorizontalTextAlignment="Center" 
+                               VerticalTextAlignment="Center" 
+                               Text="Home" FontSize="16" 
+                               TextColor="White" 
+                               BackgroundColor="#000"/>
+                    </StackLayout>
+                    
+                    <Label Grid.Row="1" 
+                           x:Name="contentLabel" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Center" 
+                           Text="The folder is empty" 
+                           FontSize="14" 
+                           TextColor="Black"/>
+                </Grid>
+            </navigationdrawer:SfNavigationDrawer.ContentView>
+            
+            <navigationdrawer:SfNavigationDrawer.DrawerHeaderView>
+                <Label Text="Menu" 
+                       HorizontalTextAlignment="Start" 
+                       HorizontalOptions="Center"
+                       Padding="10,5"
+                       VerticalOptions="End"
+                       FontSize="20" 
+                       TextColor="White"
+                       BackgroundColor="Black"/>
+            </navigationdrawer:SfNavigationDrawer.DrawerHeaderView>
+            
+            <navigationdrawer:SfNavigationDrawer.DrawerContentView>
+                <ListView x:Name="listView" 
+                          ItemSelected="listView_ItemSelected"
+                          BackgroundColor="#fff">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout 
+                                             BackgroundColor="White">
+                                    <Label Margin="10,7,0,0" 
+                                           Text="{Binding}" 
+                                           FontSize="16"
+                                           TextColor="Black"
+                                           BackgroundColor="White"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </navigationdrawer:SfNavigationDrawer.DrawerContentView>
+        </navigationdrawer:SfNavigationDrawer>
+    </ContentPage.Content>
+
+    <!--<parallax:SfParallaxView>
+        <parallax:SfParallaxView.Content>
+            <Image Source="https://mobimg.b-cdn.net/v3/fetch/3a/3afda9fff30a7e792a9fdf819267a536.jpeg" 
+                    BackgroundColor="Transparent" 
+                    HorizontalOptions="Fill" 
+                    VerticalOptions="Fill" 
+                    Aspect="AspectFill" />
+        </parallax:SfParallaxView.Content>
+    </parallax:SfParallaxView>
+
+    <list:SfListView x:Name="listview" 
+                ItemsSource="{Binding Items}" 
+                BackgroundColor="Transparent" 
+                ItemSize="100">
+        <list:SfListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid Padding="20,0,20,0" 
+                    RowSpacing="50">
+                        <StackLayout BackgroundColor="Transparent" 
+                                Grid.Column="1"
+                                Padding="0,0,0,0"
+                                VerticalOptions="CenterAndExpand" 
+                                HorizontalOptions="StartAndExpand" 
+                                Orientation="Vertical">
+                            <Label HorizontalOptions="Start"
+                            TextColor="White" 
+                            Text="{Binding Name}"/>
+
+                            <Label HorizontalOptions="Start" 
+                            Text="{Binding Author}" 
+                            TextColor="White"/>
+
+                        </StackLayout>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </list:SfListView.ItemTemplate>
+    </list:SfListView>-->
 
 </ContentPage>
