@@ -2,9 +2,17 @@
 <resources>
 
   <style name="MainTheme" parent="MainTheme.Base">
-	<item name="colorPrimary">#fff</item>
+	<item name="colorPrimary">#000</item>
 	<item name="colorPrimaryDark">#fff</item>
 	<item name="windowActionBar">true</item>
 	<item name="windowNoTitle">true</item>
   </style>
+
+	<style name="Theme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:windowActionBar">false</item>
+		<item name="android:windowFullscreen">true</item>
+		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:windowBackground">@drawable/bg_color</item>
+	</style>
 </resources>
