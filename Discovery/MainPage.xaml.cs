@@ -1,96 +1,96 @@
+using Discovery.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Xamarin.Forms;
 
-namespace Discovery
+namespace Discovery;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        Label label1;
+        InitializeComponent();
+        hamburgerButton.Image = (FileImageSource)ImageSource.FromFile("burgericon.png");
 
-        public MainPage()
+        List<string> list = new()
         {
-            InitializeComponent();
-            BindingContext = new ParallaxViewModel();
-            hamburgerButton.Image = (FileImageSource)ImageSource.FromFile("burgericon.png");
+            "Home",
+            "Browse",
+            "Favourite"
+        };
 
-            List<string> list = new List<string>
-            {
-                "Home",
-                "Browse",
-                "Favourite"
-            };
+        listView.ItemsSource = list;
+    }
 
-            listView.ItemsSource = list;
-        }
+    void hamburgerButton_Clicked(object sender, EventArgs e)
+    {
+        navigationDrawer.ToggleDrawer();
+    }
 
-        void hamburgerButton_Clicked(object sender, EventArgs e)
+    private void listView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        /*     if (e.SelectedItem.ToString() == "Home")
+             {
+                 contentLabel.Text = "Home";
+             }
+             else if (e.SelectedItem.ToString() == "Browse")
+             {
+                 contentLabel.Text = "Browse";
+             }
+             else if (e.SelectedItem.ToString() == "Favourite")
+             {
+                 contentLabel.Text = "Favourite";
+             }*/
+
+        navigationDrawer.ToggleDrawer();
+    }
+
+    private async void ItemsView_OnRemainingItemsThresholdReached(object sender, EventArgs e)
+    {
+        if (mainPageViewModel is not null && mainPageViewModel.PhotoPage is not null)
         {
-            navigationDrawer.ToggleDrawer();
-        }
-
-        private void listView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem.ToString() == "Home")
-            {
-                label1.Text = "Home";
-            }
-            else if (e.SelectedItem.ToString() == "Browse")
-            {
-                label1.Text = "Browse";
-            }
-            else if (e.SelectedItem.ToString() == "Favourite")
-            {
-                label1.Text = "Favourite";
-            }
-
-            navigationDrawer.ToggleDrawer();
+            /*await mainPageViewModel.GetNextCarouselDataAsync(mainPageViewModel.PhotoPage.page + 1);*/
         }
     }
 
-    public class ParallaxViewModel
+    protected override async void OnAppearing()
     {
-        public ImageSource Image { get; set; }
-
-        public ObservableCollection<Contacts> Items { get; set; }
-        public ParallaxViewModel()
+        try
         {
-            Items = new ObservableCollection<Contacts>()
+            base.OnAppearing();
+
+            var photoPage = await App.CarouselService.GetAllCategorizedImages("nature");
+            var photoEntities = await App.DatabaseService.GetAllPhotos();
+            var temp = photoEntities?.Count > 0
+                ? new ObservableCollection<PhotoEntity>(photoEntities)
+                : new ObservableCollection<PhotoEntity>();
+            if (photoPage?.photos?.Count > 0)
             {
-                new Contacts() { Name = "Thriller", Author = "Michael Jackson" },
-                new Contacts() { Name = "Like a Prayer", Author = "Madonna" },
-                new Contacts() { Name = "When Doves Cry", Author = "Prince" },
-                new Contacts() { Name = "I Wanna Dance", Author = "Whitney Houston" },
-                new Contacts() { Name = "It’s Gonna Be Me", Author = "N Sync"},
-                new Contacts() { Name = "Everybody", Author = "Backstreet Boys"},
-                new Contacts() { Name = "Rolling in the Deep", Author = "Adele" },
-                new Contacts() { Name = "Don’t Stop Believing", Author = "Journey" },
-                new Contacts() { Name = "Billie Jean", Author = "Michael Jackson" },
-                new Contacts() { Name = "Firework", Author = "Katy Perry"},
-                new Contacts() { Name = "Thriller", Author = "Michael Jackson" },
-                new Contacts() { Name = "Like a Prayer", Author = "Madonna" },
-                new Contacts() { Name = "When Doves Cry", Author = "Prince" },
-                new Contacts() { Name = "I Wanna Dance", Author = "Whitney Houston" },
-                new Contacts() { Name = "It’s Gonna Be Me", Author = "N Sync" },
-                new Contacts() { Name = "Everybody", Author = "Backstreet Boys" },
-                new Contacts() { Name = "Rolling in the Deep", Author = "Adele" },
-                new Contacts() { Name = "Don’t Stop Believing", Author = "Journey"},
-            };
-        }
-    }
+                foreach (var photo in photoPage.photos)
+                {
+                    if (photoEntities?.Count > 0 && photoEntities.Any(x => x.Id == photo.id))
+                    {
+                        continue;
+                    }
 
-    public class Contacts
-    {
-        public string Name
-        {
-            get;
-            set;
+                    var photoEntityToCreate = new PhotoEntity
+                    {
+                        Id = photo.id,
+                        Alt = photo.alt,
+                        Url = photo.source.portrait,
+                        Photographer = photo.photographer
+                    };
+
+                    await App.DatabaseService.CreatePhoto(photoEntityToCreate);
+                    temp.Add(photoEntityToCreate);
+                }
+            }
+
+            mainPageViewModel.PhotoPage = photoPage;
+            mainPageViewModel.Photos = temp;
         }
-        public string Author
-        {
-            get;
-            set;
-        }
+        catch (Exception ex) { }
     }
 }

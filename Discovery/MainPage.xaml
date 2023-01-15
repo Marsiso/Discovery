@@ -4,8 +4,13 @@
              xmlns:list="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              xmlns:parallax="clr-namespace:Syncfusion.XForms.ParallaxView;assembly=Syncfusion.SfParallaxView.XForms"
              xmlns:navigationdrawer="clr-namespace:Syncfusion.SfNavigationDrawer.XForms;assembly=Syncfusion.SfNavigationDrawer.XForms"
-			 x:Class="Discovery.MainPage">
+             xmlns:carousel="clr-namespace:Syncfusion.SfCarousel.XForms;assembly=Syncfusion.SfCarousel.XForms" 
+             xmlns:local="clr-namespace:Discovery.ViewModels"
+             x:Class="Discovery.MainPage">
 
+    <ContentPage.BindingContext>
+        <local:MainPageViewModel x:Name="mainPageViewModel" />
+    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer" DrawerHeaderHeight="40" DrawerWidth="200">
@@ -38,13 +43,79 @@
                                BackgroundColor="#000"/>
                     </StackLayout>
                     
-                    <Label Grid.Row="1" 
-                           x:Name="contentLabel" 
-                           VerticalOptions="Center" 
-                           HorizontalOptions="Center" 
-                           Text="The folder is empty" 
-                           FontSize="14" 
-                           TextColor="Black"/>
+                    <Grid Grid.Row="1"
+                          x:Name="innerMainContentView" 
+                          BackgroundColor="#fff">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <!--<Label x:Name="contentLabel" 
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center" 
+                               Text="The folder is empty" 
+                               FontSize="14" 
+                               TextColor="Black"/>-->
+                        
+                        <StackLayout>
+                            <Label Text="Discover" 
+                                   HorizontalOptions="Center"
+                                   TextColor="Black"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   Margin="15"
+                                   FontFamily="sans-serif-condensed" />
+                            
+                            <CarouselView ItemsSource="{Binding Photos}"
+                                          IsScrollAnimated="True"
+                                          RemainingItemsThreshold="10"
+                                          RemainingItemsThresholdReached="ItemsView_OnRemainingItemsThresholdReached">
+                                <CarouselView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame WidthRequest="180" Padding="0"
+                                               HeightRequest="280"
+                                               HorizontalOptions="CenterAndExpand"
+                                               HasShadow="True"
+                                               BackgroundColor="White"
+                                               Margin="10"
+                                               CornerRadius="10">  
+                                            <Grid>
+                                                <StackLayout BackgroundColor="Black">
+                                                    <Image Source="{Binding Url}" 
+                                                           Aspect="AspectFill" 
+                                                           VerticalOptions="FillAndExpand"
+                                                           HeightRequest="350"
+                                                           Opacity="0.8" />
+                                                </StackLayout>
+                                                <StackLayout Margin="0,0,0,10">
+                                                    <Image Source="https://images.vexels.com/media/users/3/147081/isolated/preview/8665e39f2880934120b3c37131210042-instagram-bookmark-icon-by-vexels.png" 
+                                                           HeightRequest="30"
+                                                           Aspect="AspectFit" HorizontalOptions="EndAndExpand" Margin="10,0"/>
+                                                        <Label Text="{Binding Alt}" 
+                                                               TextColor="White"
+                                                               FontSize="18"
+                                                               Margin="15,0"
+                                                               VerticalOptions="EndAndExpand"
+                                                               FontAttributes="None"/>
+                                                        <StackLayout Orientation="Horizontal" Margin="15,-8,0,0">
+                                                            <Image Source="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" 
+                                                                   Aspect="AspectFit" 
+                                                                   HeightRequest="20" Margin="-5, 0"
+                                                                   HorizontalOptions="Start" />
+                                                            <Label Text="{Binding Photographer}" 
+                                                                   TextColor="White"
+                                                                   FontSize="16"
+                                                                   FontAttributes="None"
+                                                                   VerticalOptions="EndAndExpand"/>
+                                                         </StackLayout>
+                                                </StackLayout>
+                                            </Grid>
+                                        </Frame>
+                                    </DataTemplate>
+                                </CarouselView.ItemTemplate>
+                            </CarouselView>
+                        </StackLayout>
+                    </Grid>
                 </Grid>
             </navigationdrawer:SfNavigationDrawer.ContentView>
             
