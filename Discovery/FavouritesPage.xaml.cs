@@ -1,20 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Syncfusion.XForms.Backdrop;
+using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Discovery
+namespace Discovery;
+
+[XamlCompilation(XamlCompilationOptions.Compile)]
+[DesignTimeVisible(false)]
+public partial class FavouritesPage : SfBackdropPage
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FavouritesPage : ContentPage
+    public FavouritesPage()
     {
-        public FavouritesPage()
+        InitializeComponent();
+    }
+
+    private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        var app = Application.Current;
+        if (app is not null)
         {
-            InitializeComponent();
+            if (e.SelectedItem.ToString() == "Home")
+            {
+                app.MainPage = new NavigationPage(new HomePage());
+            }
+            else if (e.SelectedItem.ToString() == "Browse")
+            {
+                app.MainPage = new NavigationPage(new BrowsePage());
+            }
+            else if (e.SelectedItem.ToString() == "Favourites")
+            {
+                app.MainPage = new NavigationPage(new FavouritesPage());
+            }
         }
     }
 }

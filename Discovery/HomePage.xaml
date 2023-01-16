@@ -19,7 +19,10 @@
     <backdrop:SfBackdropPage.BackLayer>
         <backdrop:BackdropBackLayer BackgroundColor="Black">
             <StackLayout>
-                <ListView>
+                <ListView
+                    ItemSelected="ListView_ItemSelected"
+                    SelectedItem="0"
+                    SelectionMode="Single">
                     <ListView.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>Home</x:String>
