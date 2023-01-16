@@ -6,6 +6,10 @@
 	<item name="colorPrimaryDark">#000</item>
 	<item name="windowActionBar">true</item>
 	<item name="windowNoTitle">true</item>
+	<item name="android:colorPressedHighlight">@color/ListViewSelected</item>
+	<item name="android:colorFocusedHighlight">@color/ListViewSelected</item>
+	<item name="android:colorActivatedHighlight">@color/ListViewSelected</item>
+	<item name="android:activatedBackgroundIndicator">@color/ListViewSelected</item>
   </style>
 
 	<style name="Theme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
@@ -14,5 +18,6 @@
 		<item name="android:windowFullscreen">true</item>
 		<item name="android:windowContentOverlay">@null</item>
 		<item name="android:windowBackground">@drawable/bg_color</item>
+		
 	</style>
 </resources>

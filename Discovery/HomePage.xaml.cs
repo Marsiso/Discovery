@@ -1,50 +1,47 @@
 using Discovery.Models;
+using Syncfusion.XForms.Backdrop;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using Xamarin.Forms;
 
 namespace Discovery;
 
-public partial class MainPage : ContentPage
+[DesignTimeVisible(false)]
+public partial class HomePage : SfBackdropPage
 {
-    public MainPage()
+    public HomePage()
     {
         InitializeComponent();
-        hamburgerButton.Image = (FileImageSource)ImageSource.FromFile("burgericon.png");
-
-        List<string> list = new()
-        {
-            "Home",
-            "Browse",
-            "Favourite"
-        };
-
-        listView.ItemsSource = list;
-    }
-
-    void hamburgerButton_Clicked(object sender, EventArgs e)
-    {
-        navigationDrawer.ToggleDrawer();
     }
 
     private void listView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
-        /*     if (e.SelectedItem.ToString() == "Home")
-             {
-                 contentLabel.Text = "Home";
-             }
-             else if (e.SelectedItem.ToString() == "Browse")
-             {
-                 contentLabel.Text = "Browse";
-             }
-             else if (e.SelectedItem.ToString() == "Favourite")
-             {
-                 contentLabel.Text = "Favourite";
-             }*/
+        var app = Application.Current;
+        if (app is not null)
+        {
+            //    if (e.SelectedItem.ToString() == "Home")
+            //    {
+            //        //contentLabel.Text = "Home";
+            //        navigationDrawer.ToggleDrawer();
+            //        app.MainPage = new HomePage();
+            //    }
+            //    else if (e.SelectedItem.ToString() == "Browse")
+            //    {
+            //        //contentLabel.Text = "Browse";
+            //        navigationDrawer.ToggleDrawer();
+            //        app.MainPage = new BrowsePage();
+            //    }
+            //    else if (e.SelectedItem.ToString() == "Favourites")
+            //    {
+            //        //contentLabel.Text = "Favourite";
+            //        navigationDrawer.ToggleDrawer();
+            //        app.MainPage = new FavouritesPage();
+            //    }
 
-        navigationDrawer.ToggleDrawer();
+            //    navigationDrawer.ToggleDrawer();
+        }
     }
 
     private async void ItemsView_OnRemainingItemsThresholdReached(object sender, EventArgs e)
