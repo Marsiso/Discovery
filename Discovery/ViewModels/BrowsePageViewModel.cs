@@ -2,6 +2,9 @@
 using PexelsDotNetSDK.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
@@ -46,39 +49,73 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public Command<object> TapGestureCommand { get; set; }
+    public Command<object> AddToFavouritesCommand { get; set; }
+    public Command<object> AddToBlacklistCommand { get; set; }
+    public Command<object> DownloadCommand { get; set; }
 
     public BrowsePageViewModel()
     {
-        TapGestureCommand = new Command<object>(TappedGestureCommandMethod);
+        AddToFavouritesCommand = new Command<object>(AddToFavouritesCommandMethod);
+        AddToBlacklistCommand = new Command<object>(AddToBlacklistCommandMethod);
+        DownloadCommand = new Command<object>(DownloadCommandMethod);
     }
 
-    private void TappedGestureCommandMethod(object obj)
+    private async void AddToFavouritesCommandMethod(object obj)
     {
-        var tappedItemData = obj as PhotoEntity;
-        if (tappedItemData is null)
+        var photo = obj as PhotoEntity;
+        if (photo is not null)
         {
-            return;
+            photo.IsVisible = false;
+            //await App.DatabaseService.UpdatePhoto(photo);
+            Photos = Photos.Where(x => x.Id != photo.Id).ToList();
         }
+    }
 
-        if (TappedItem is not null && TappedItem.IsVisible)
+    private async void AddToBlacklistCommandMethod(object obj)
+    {
+        var photo = obj as PhotoEntity;
+        if (photo is not null)
         {
-            TappedItem.IsVisible = false;
+            photo.IsVisible = false;
+            //await App.DatabaseService.UpdatePhoto(photo);
+            Photos = Photos.Where(x => x.Id != photo.Id).ToList();
         }
+    }
 
-        if (TappedItem == tappedItemData)
+    private void DownloadCommandMethod(object obj)
+    {
+        var photo = obj as PhotoEntity;
+        if (photo is not null)
         {
-            TappedItem = null;
-
-            return;
+            GetPhotoFromUrl(photo.Id.ToString(), photo.Url);
         }
-
-        TappedItem = tappedItemData;
-        TappedItem.IsVisible = true;
     }
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private void GetPhotoFromUrl(string photoName, string url)
+    {
+        using var webClient = new WebClient();
+        var imageBytes = webClient.DownloadData(url);
+        if (imageBytes is not null && imageBytes.Length > 0)
+        {
+            SavePhoto(photoName, imageBytes, "Photos");
+        }
+    }
+
+    private void SavePhoto(string photoName, byte[] data, string location = "temp")
+    {
+        var downloadsPath = Android.App.Application.Context.GetExternalFilesDir(string.Empty).AbsolutePath;
+        if (Path.HasExtension(photoName) is false)
+        {
+            photoName += ".jpeg";
+        }
+
+        var filePath = Path.Combine(downloadsPath, photoName);
+
+        File.WriteAllBytes(filePath, data);
     }
 }

@@ -79,7 +79,6 @@
                                     <Grid
                                         BackgroundColor="White"
                                         HorizontalOptions="FillAndExpand"
-                                        IsVisible="{Binding IsVisible}"
                                         RowSpacing="0"
                                         VerticalOptions="FillAndExpand">
                                         <Grid.RowDefinitions>
@@ -96,7 +95,6 @@
                                         </Grid.ColumnDefinitions>
 
                                         <!--  Column 1  -->
-
                                         <Frame
                                             Grid.Row="0"
                                             Grid.RowSpan="5"
@@ -159,7 +157,6 @@
                                             VerticalOptions="Center" />
 
                                         <!--  Column 3  -->
-
                                         <Label
                                             Grid.Column="2"
                                             Margin="5,0"
@@ -189,6 +186,8 @@
                                             Grid.Column="2"
                                             BackgroundColor="White"
                                             BorderWidth="0"
+                                            Command="{Binding BindingContext.AddToFavouritesCommand, Source={x:Reference Name=dataListView}}"
+                                            CommandParameter="{Binding .}"
                                             CornerRadius="25"
                                             FontSize="16"
                                             HasShadow="False"
@@ -204,6 +203,8 @@
                                             Grid.Column="2"
                                             BackgroundColor="White"
                                             BorderWidth="0"
+                                            Command="{Binding BindingContext.AddToBlacklistCommand, Source={x:Reference Name=dataListView}}"
+                                            CommandParameter="{Binding .}"
                                             CornerRadius="25"
                                             FontSize="16"
                                             HasShadow="False"
@@ -214,12 +215,13 @@
                                             VerticalOptions="CenterAndExpand"
                                             VerticalTextAlignment="Center" />
 
-
                                         <buttons:SfButton
                                             Grid.Row="4"
                                             Grid.Column="2"
                                             BackgroundColor="White"
                                             BorderWidth="0"
+                                            Command="{Binding BindingContext.DownloadCommand, Source={x:Reference Name=dataListView}}"
+                                            CommandParameter="{Binding .}"
                                             CornerRadius="25"
                                             FontSize="16"
                                             HasShadow="False"
