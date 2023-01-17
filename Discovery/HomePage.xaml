@@ -13,7 +13,7 @@
     IsBackLayerRevealed="False">
 
     <ContentPage.BindingContext>
-        <local:MainPageViewModel x:Name="mainPageViewModel" />
+        <local:HomePageViewModel x:Name="homePageViewModel" />
     </ContentPage.BindingContext>
 
     <backdrop:SfBackdropPage.BackLayer>

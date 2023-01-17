@@ -1,7 +1,7 @@
 using Discovery.Models;
 using Syncfusion.XForms.Backdrop;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Xamarin.Forms;
@@ -38,7 +38,7 @@ public partial class HomePage : SfBackdropPage
 
     private async void ItemsView_OnRemainingItemsThresholdReached(object sender, EventArgs e)
     {
-        if (mainPageViewModel is not null && mainPageViewModel.PhotoPage is not null)
+        if (homePageViewModel is not null && homePageViewModel.PhotoPage is not null)
         {
             /*await mainPageViewModel.GetNextCarouselDataAsync(mainPageViewModel.PhotoPage.page + 1);*/
         }
@@ -53,8 +53,8 @@ public partial class HomePage : SfBackdropPage
             var photoPage = await App.CarouselService.GetAllCategorizedImages("nature");
             var photoEntities = await App.DatabaseService.GetAllPhotos();
             var temp = photoEntities?.Count > 0
-                ? new ObservableCollection<PhotoEntity>(photoEntities)
-                : new ObservableCollection<PhotoEntity>();
+                ? new List<PhotoEntity>(photoEntities)
+                : new List<PhotoEntity>();
             if (photoPage?.photos?.Count > 0)
             {
                 foreach (var photo in photoPage.photos)
@@ -77,8 +77,8 @@ public partial class HomePage : SfBackdropPage
                 }
             }
 
-            mainPageViewModel.PhotoPage = photoPage;
-            mainPageViewModel.Photos = temp;
+            homePageViewModel.PhotoPage = photoPage;
+            homePageViewModel.Photos = temp;
         }
         catch (Exception ex) { }
     }

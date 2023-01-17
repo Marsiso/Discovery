@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discovery", "Discovery\Discovery.csproj", "{98A18045-DA87-4CEA-B478-2F49EA47578A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discovery", "Discovery\Discovery.csproj", "{98A18045-DA87-4CEA-B478-2F49EA47578A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discovery.Android", "Discovery.Android\Discovery.Android.csproj", "{5E3A187B-089A-445D-B046-B32462AF7F9C}"
 EndProject

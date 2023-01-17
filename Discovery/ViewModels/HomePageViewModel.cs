@@ -1,25 +1,25 @@
 ﻿using Discovery.Models;
 using PexelsDotNetSDK.Models;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Discovery.ViewModels;
 
-public sealed class MainPageViewModel : INotifyPropertyChanged
+public sealed class HomePageViewModel : INotifyPropertyChanged
 {
-    private ObservableCollection<PhotoEntity> _photos = new();
+    private IList<PhotoEntity> photos = new List<PhotoEntity>();
 
     public PhotoPage? PhotoPage { get; set; }
 
-    public ObservableCollection<PhotoEntity> Photos
+    public IList<PhotoEntity> Photos
     {
-        get => _photos;
+        get => photos;
         set
         {
             if (value is not null)
             {
-                _photos = value;
+                photos = value;
 
                 OnPropertyChanged(nameof(Photos));
             }

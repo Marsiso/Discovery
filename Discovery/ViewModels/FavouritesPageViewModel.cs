@@ -1,5 +1,8 @@
-﻿namespace Discovery.ViewModels;
+﻿using System.ComponentModel;
 
-public sealed class FavouritesPageViewModel
+namespace Discovery.ViewModels;
+
+public sealed class FavouritesPageViewModel : INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler PropertyChanged;
 }
