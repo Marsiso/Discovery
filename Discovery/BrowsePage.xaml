@@ -62,7 +62,7 @@
                                         VerticalOptions="FillAndExpand">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="45" />
-                                            <RowDefinition Height="60" />
+                                            <RowDefinition Height="45" />
                                             <RowDefinition Height="45" />
                                             <RowDefinition Height="45" />
                                             <RowDefinition Height="45" />
@@ -87,7 +87,7 @@
                                             <Image
                                                 Aspect="AspectFill"
                                                 Source="{Binding Url}"
-                                                WidthRequest="120" />
+                                                WidthRequest="150" />
                                         </Frame>
 
                                         <!--  Column 2  -->
