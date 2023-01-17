@@ -11,6 +11,22 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
 {
     private IList<PhotoEntity> photos = new List<PhotoEntity>();
     private PhotoEntity? TappedItem;
+    private string? searchTerm = "nature";
+
+    public string? SearchTerm
+    {
+        get => searchTerm;
+        set
+        {
+            if (searchTerm != value)
+            {
+                searchTerm = value;
+
+                OnPropertyChanged(nameof(SearchTerm));
+            }
+        }
+    }
+
 
     public PhotoPage? PhotoPage { get; set; }
 

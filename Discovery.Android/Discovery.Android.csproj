@@ -72,6 +72,9 @@
     <PackageReference Include="Syncfusion.Xamarin.Cards">
       <Version>20.4.0.38</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.Core">
+      <Version>20.4.0.38</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfBackdrop">
       <Version>20.4.0.38</Version>
     </PackageReference>
