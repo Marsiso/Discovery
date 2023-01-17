@@ -46,15 +46,16 @@ public partial class HomePage : SfBackdropPage
 
     protected override async void OnAppearing()
     {
+        var photoEntities = await App.DatabaseService.GetAllPhotos();
+        var temp = photoEntities?.Count > 0
+            ? new List<PhotoEntity>(photoEntities)
+            : new List<PhotoEntity>();
+
         try
         {
             base.OnAppearing();
 
             var photoPage = await App.CarouselService.GetAllCategorizedImages("nature");
-            var photoEntities = await App.DatabaseService.GetAllPhotos();
-            var temp = photoEntities?.Count > 0
-                ? new List<PhotoEntity>(photoEntities)
-                : new List<PhotoEntity>();
             if (photoPage?.photos?.Count > 0)
             {
                 foreach (var photo in photoPage.photos)
@@ -80,6 +81,8 @@ public partial class HomePage : SfBackdropPage
             homePageViewModel.PhotoPage = photoPage;
             homePageViewModel.Photos = temp;
         }
-        catch (Exception ex) { }
+        catch (Exception) { }
+
+        homePageViewModel.Photos = temp;
     }
 }

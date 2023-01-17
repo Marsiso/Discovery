@@ -1,11 +1,13 @@
 ﻿using Discovery.Models;
 using PexelsDotNetSDK.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Discovery.ViewModels;
@@ -13,7 +15,6 @@ namespace Discovery.ViewModels;
 public sealed class BrowsePageViewModel : INotifyPropertyChanged
 {
     private IList<PhotoEntity> photos = new List<PhotoEntity>();
-    private PhotoEntity? TappedItem;
     private string? searchTerm = "nature";
 
     public string? SearchTerm
@@ -24,6 +25,7 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
             if (searchTerm != value)
             {
                 searchTerm = value;
+                _ = GetCarouselItemsByCategory(value);
 
                 OnPropertyChanged(nameof(SearchTerm));
             }
@@ -60,13 +62,69 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
         DownloadCommand = new Command<object>(DownloadCommandMethod);
     }
 
+    private async Task GetCarouselItemsByCategory(string? searchTerm)
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            searchTerm = "nature";
+        }
+
+        var photoEntities = await App.DatabaseService.GetAllPhotos();
+        var temp = new List<PhotoEntity>(photoEntities.Where(x => x.IsVisible && x.IsBlackListed is false && x.IsFavourite is false));
+        var pageNumber = 1;
+
+        try
+        {
+            while (temp.Count < 50)
+            {
+                var photoPage = await App.CarouselService.GetAllCategorizedImages(category: searchTerm, pageNumber: pageNumber);
+                if (photoPage is null || photoPage.photos is null)
+                {
+                    break;
+                }
+
+                if (photoPage?.photos?.Count > 0)
+                {
+                    foreach (var photo in photoPage.photos)
+                    {
+                        if (photoEntities?.Count > 0 && photoEntities.Any(x => x.Id == photo.id))
+                        {
+                            continue;
+                        }
+
+                        var photoEntityToCreate = new PhotoEntity
+                        {
+                            Id = photo.id,
+                            Alt = photo.alt,
+                            Url = photo.source.portrait,
+                            Photographer = photo.photographer
+                        };
+
+                        await App.DatabaseService.CreatePhoto(photoEntityToCreate);
+                        temp.Add(photoEntityToCreate);
+                    }
+
+                    pageNumber++;
+                }
+
+                PhotoPage = photoPage;
+            }
+        }
+        catch (Exception)
+        {
+        }
+
+        temp.Reverse();
+        Photos = temp;
+    }
+
     private async void AddToFavouritesCommandMethod(object obj)
     {
         var photo = obj as PhotoEntity;
         if (photo is not null)
         {
             photo.IsVisible = false;
-            //await App.DatabaseService.UpdatePhoto(photo);
+            await App.DatabaseService.UpdatePhoto(photo);
             Photos = Photos.Where(x => x.Id != photo.Id).ToList();
         }
     }
@@ -77,7 +135,7 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
         if (photo is not null)
         {
             photo.IsVisible = false;
-            //await App.DatabaseService.UpdatePhoto(photo);
+            await App.DatabaseService.UpdatePhoto(photo);
             Photos = Photos.Where(x => x.Id != photo.Id).ToList();
         }
     }

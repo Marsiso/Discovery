@@ -3,7 +3,6 @@ using Syncfusion.XForms.Backdrop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -48,27 +47,6 @@ public partial class BrowsePage : SfBackdropPage
             var temp = photoEntities?.Count > 0
                 ? new List<PhotoEntity>(photoEntities)
                 : new List<PhotoEntity>();
-            if (photoPage?.photos?.Count > 0)
-            {
-                foreach (var photo in photoPage.photos)
-                {
-                    if (photoEntities?.Count > 0 && photoEntities.Any(x => x.Id == photo.id))
-                    {
-                        continue;
-                    }
-
-                    var photoEntityToCreate = new PhotoEntity
-                    {
-                        Id = photo.id,
-                        Alt = photo.alt,
-                        Url = photo.source.portrait,
-                        Photographer = photo.photographer
-                    };
-
-                    await App.DatabaseService.CreatePhoto(photoEntityToCreate);
-                    temp.Add(photoEntityToCreate);
-                }
-            }
 
             browsePageViewModel.PhotoPage = photoPage;
             browsePageViewModel.Photos = temp;
