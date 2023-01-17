@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:backdrop="clr-namespace:Syncfusion.XForms.Backdrop;assembly=Syncfusion.SfBackdrop.XForms"
+    xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
     xmlns:local="clr-namespace:Discovery.ViewModels"
     xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
     Title="Menu"
@@ -56,14 +57,15 @@
                                     <Grid
                                         BackgroundColor="White"
                                         HorizontalOptions="FillAndExpand"
+                                        IsVisible="{Binding IsVisible}"
                                         RowSpacing="0"
                                         VerticalOptions="FillAndExpand">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="45" />
                                             <RowDefinition Height="60" />
-                                            <RowDefinition Height="30" />
-                                            <RowDefinition Height="30" />
-                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="45" />
+                                            <RowDefinition Height="45" />
+                                            <RowDefinition Height="45" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="auto" />
@@ -160,39 +162,50 @@
                                             VerticalOptions="Start"
                                             VerticalTextAlignment="Start" />
 
-                                        <Label
+                                        <buttons:SfButton
                                             Grid.Row="2"
                                             Grid.Column="2"
-                                            Margin="5,0"
+                                            BackgroundColor="White"
+                                            BorderWidth="0"
+                                            CornerRadius="25"
                                             FontSize="16"
-                                            HorizontalOptions="Start"
+                                            HasShadow="False"
+                                            HorizontalOptions="StartAndExpand"
                                             HorizontalTextAlignment="Start"
                                             Text="Add to Favourites"
                                             TextColor="Black"
-                                            VerticalOptions="Center"
+                                            VerticalOptions="CenterAndExpand"
                                             VerticalTextAlignment="Center" />
 
-                                        <Label
+                                        <buttons:SfButton
                                             Grid.Row="3"
                                             Grid.Column="2"
-                                            Margin="5,0"
+                                            BackgroundColor="White"
+                                            BorderWidth="0"
+                                            CornerRadius="25"
                                             FontSize="16"
-                                            HorizontalOptions="Start"
+                                            HasShadow="False"
+                                            HorizontalOptions="StartAndExpand"
                                             HorizontalTextAlignment="Start"
                                             Text="Add to Blacklist"
                                             TextColor="Black"
-                                            VerticalOptions="Center"
+                                            VerticalOptions="CenterAndExpand"
                                             VerticalTextAlignment="Center" />
 
-                                        <Label
+
+                                        <buttons:SfButton
                                             Grid.Row="4"
                                             Grid.Column="2"
-                                            Margin="5,0"
+                                            BackgroundColor="White"
+                                            BorderWidth="0"
+                                            CornerRadius="25"
                                             FontSize="16"
-                                            HorizontalOptions="Start"
+                                            HasShadow="False"
+                                            HorizontalOptions="StartAndExpand"
                                             HorizontalTextAlignment="Start"
                                             Text="Download image"
                                             TextColor="Black"
+                                            VerticalOptions="CenterAndExpand"
                                             VerticalTextAlignment="Center" />
                                     </Grid>
                                 </ViewCell.View>
