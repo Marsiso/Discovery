@@ -3,8 +3,10 @@
     x:Class="Discovery.BrowsePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard"
     xmlns:backdrop="clr-namespace:Syncfusion.XForms.Backdrop;assembly=Syncfusion.SfBackdrop.XForms"
     xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+    xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
     xmlns:local="clr-namespace:Discovery.ViewModels"
     xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
     xmlns:textinputlayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
@@ -51,23 +53,50 @@
                 <!--  Page content  -->
                 <textinputlayout:SfTextInputLayout
                     Grid.Row="0"
-                    Margin="15,0"
+                    Padding="20,10"
                     BackgroundColor="White"
                     ContainerBackgroundColor="White"
                     ErrorColor="Gray"
                     FocusedColor="DeepPink"
-                    HelperText="Enter photo category"
-                    Hint="Category"
-                    UnfocusedColor="Black">
-                    <Entry Text="{Binding SearchTerm, Mode=TwoWay}" />
-                    <textinputlayout:SfTextInputLayout.TrailingView>
-                        <Image Source="https://cdn-icons-png.flaticon.com/128/3405/3405802.png" />
-                    </textinputlayout:SfTextInputLayout.TrailingView>
+                    HeightRequest="40"
+                    Hint="Photo Category"
+                    HorizontalOptions="Center"
+                    LeadingViewPosition="Inside"
+                    UnfocusedColor="Black"
+                    VerticalOptions="Center">
+                    <combobox:SfComboBox
+                        SelectedItem="{Binding SearchTerm, Mode=TwoWay}"
+                        ShowClearButton="false"
+                        Text="16">
+                        <combobox:SfComboBox.ComboBoxSource>
+                            <ListCollection:List x:TypeArguments="x:String">
+                                <x:String>nature</x:String>
+                                <x:String>vacation</x:String>
+                                <x:String>travel</x:String>
+                                <x:String>summer</x:String>
+                                <x:String>abstract</x:String>
+                                <x:String>rain</x:String>
+                                <x:String>water</x:String>
+                                <x:String>nature wallpaper</x:String>
+                                <x:String>adventure</x:String>
+                                <x:String>airport</x:String>
+                                <x:String>family vacation</x:String>
+                                <x:String>vaccination</x:String>
+                                <x:String>black and white</x:String>
+                                <x:String>wall</x:String>
+                                <x:String>hotel</x:String>
+                            </ListCollection:List>
+                        </combobox:SfComboBox.ComboBoxSource>
+                    </combobox:SfComboBox>
+                    <textinputlayout:SfTextInputLayout.LeadingView>
+                        <Image Source="https://cdn-icons-png.flaticon.com/256/3405/3405802.png" />
+                    </textinputlayout:SfTextInputLayout.LeadingView>
                 </textinputlayout:SfTextInputLayout>
 
                 <syncfusion:SfListView
                     x:Name="dataListView"
                     Grid.Row="1"
+                    Margin="0,30,0,0"
                     AutoFitMode="DynamicHeight"
                     IsScrollBarVisible="False"
                     ItemSpacing="5,5,5,5"
@@ -83,7 +112,7 @@
                                         VerticalOptions="FillAndExpand">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="45" />
-                                            <RowDefinition Height="45" />
+                                            <RowDefinition Height="60" />
                                             <RowDefinition Height="45" />
                                             <RowDefinition Height="45" />
                                             <RowDefinition Height="45" />
@@ -107,7 +136,7 @@
                                             <Image
                                                 Aspect="AspectFill"
                                                 Source="{Binding Url}"
-                                                WidthRequest="150" />
+                                                WidthRequest="160" />
                                         </Frame>
 
                                         <!--  Column 2  -->

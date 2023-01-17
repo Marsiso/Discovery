@@ -70,7 +70,10 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
         }
 
         var photoEntities = await App.DatabaseService.GetAllPhotos();
-        var temp = new List<PhotoEntity>(photoEntities.Where(x => x.IsVisible && x.IsBlackListed is false && x.IsFavourite is false));
+        var temp = new List<PhotoEntity>(photoEntities.Where(x => x.IsVisible &&
+        x.IsBlackListed is false &&
+        x.IsFavourite is false &&
+        x.Category == searchTerm));
         var pageNumber = 1;
 
         try
@@ -97,7 +100,8 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
                             Id = photo.id,
                             Alt = photo.alt,
                             Url = photo.source.portrait,
-                            Photographer = photo.photographer
+                            Photographer = photo.photographer,
+                            Category = searchTerm
                         };
 
                         await App.DatabaseService.CreatePhoto(photoEntityToCreate);
@@ -114,7 +118,6 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
         {
         }
 
-        temp.Reverse();
         Photos = temp;
     }
 

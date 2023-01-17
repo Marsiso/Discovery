@@ -14,6 +14,7 @@ public sealed class PhotoEntity : INotifyPropertyChanged, ICloneable
     private string photographer = default!;
     private string url = default!;
     private string alt = default!;
+    private string category = default!;
     private int id;
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -128,6 +129,22 @@ public sealed class PhotoEntity : INotifyPropertyChanged, ICloneable
                 isBlackListed = value;
 
                 OnPropertyChanged(nameof(IsBlackListed));
+            }
+        }
+    }
+
+    [Column("category")]
+    [NotNull]
+    public string Category
+    {
+        get => category;
+        set
+        {
+            if (category != value)
+            {
+                category = value;
+
+                OnPropertyChanged(nameof(Category));
             }
         }
     }

@@ -3,10 +3,11 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Com.Airbnb.Lottie;
+using Discovery.Android;
 
-namespace Discovery.Android
+namespace Discovery.Androids
 {
-    [Activity(Theme = "@style/Theme.Splash", MainLauncher = true, NoHistory = true)]
+    [Activity(Theme = "@style/Theme.Splash", MainLauncher = true, NoHistory = true, Label = "Discovery")]
     public class SplashActivity : Activity, Animator.IAnimatorListener
     {
         public void OnAnimationCancel(Animator animation)

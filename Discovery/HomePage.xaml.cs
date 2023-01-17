@@ -70,7 +70,8 @@ public partial class HomePage : SfBackdropPage
                         Id = photo.id,
                         Alt = photo.alt,
                         Url = photo.source.portrait,
-                        Photographer = photo.photographer
+                        Photographer = photo.photographer,
+                        Category = "nature"
                     };
 
                     await App.DatabaseService.CreatePhoto(photoEntityToCreate);

@@ -81,6 +81,9 @@
     <PackageReference Include="Syncfusion.Xamarin.SfCarousel">
       <Version>20.4.0.38</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox">
+      <Version>20.4.0.38</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfDataForm">
       <Version>20.4.0.38</Version>
     </PackageReference>
