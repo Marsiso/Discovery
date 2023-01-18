@@ -33,4 +33,19 @@ public partial class FavouritesPage : SfBackdropPage
             }
         }
     }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await favouritesPageViewModel.GetFavouritePhotos();
+    }
+
+    private void SfCardLayout_CardTapped(object sender, TappedEventArgs e)
+    {
+        if (popupLayout is not null)
+        {
+            popupLayout.IsOpen = true;
+        }
+    }
 }

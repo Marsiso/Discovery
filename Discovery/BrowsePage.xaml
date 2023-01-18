@@ -285,7 +285,7 @@
                                             HasShadow="False"
                                             HorizontalOptions="StartAndExpand"
                                             HorizontalTextAlignment="Start"
-                                            Text="Download image"
+                                            Text="Download Photo"
                                             TextColor="Black"
                                             VerticalOptions="CenterAndExpand"
                                             VerticalTextAlignment="Center" />

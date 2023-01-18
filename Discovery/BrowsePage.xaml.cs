@@ -25,6 +25,7 @@ public partial class BrowsePage : SfBackdropPage
             }
             else if (e.SelectedItem.ToString() == "Browse")
             {
+                app.MainPage = new NavigationPage(new BrowsePage());
             }
             else if (e.SelectedItem.ToString() == "Favourites")
             {

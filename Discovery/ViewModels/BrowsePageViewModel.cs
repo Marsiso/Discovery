@@ -131,6 +131,8 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
         if (photo is not null)
         {
             photo.IsVisible = false;
+            photo.IsFavourite = true;
+            photo.IsBlackListed = false;
             await App.DatabaseService.UpdatePhoto(photo);
             Photos = Photos.Where(x => x.Id != photo.Id).ToList();
         }
@@ -142,6 +144,8 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
         if (photo is not null)
         {
             photo.IsVisible = false;
+            photo.IsFavourite = false;
+            photo.IsBlackListed = true;
             await App.DatabaseService.UpdatePhoto(photo);
             Photos = Photos.Where(x => x.Id != photo.Id).ToList();
         }
