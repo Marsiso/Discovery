@@ -10,6 +10,7 @@
     xmlns:local="clr-namespace:Discovery.ViewModels"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:popuplayout="clr-namespace:Syncfusion.XForms.PopupLayout;assembly=Syncfusion.SfPopupLayout.XForms"
+    xmlns:textinputlayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
     Title="Menu"
     BackLayerRevealOption="Auto"
     Background="Black"
@@ -45,9 +46,37 @@
     <backdrop:SfBackdropPage.FrontLayer>
         <backdrop:BackdropFrontLayer>
             <Grid BackgroundColor="White" VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
                 <!--  Page content  -->
-                <popuplayout:SfPopupLayout x:Name="popupLayout">
+                <textinputlayout:SfTextInputLayout
+                    Grid.Row="0"
+                    Padding="20,10"
+                    BackgroundColor="White"
+                    ContainerBackgroundColor="White"
+                    ErrorColor="Gray"
+                    FocusedColor="DeepPink"
+                    HeightRequest="40"
+                    HelperText="Enter photo description"
+                    Hint="Filter"
+                    HorizontalOptions="Center"
+                    LeadingViewPosition="Inside"
+                    UnfocusedColor="Black"
+                    VerticalOptions="Center">
+                    <Entry Text="{Binding SearchTerm, Mode=TwoWay}" />
+                    <textinputlayout:SfTextInputLayout.LeadingView>
+                        <Image Source="https://cdn-icons-png.flaticon.com/256/3405/3405802.png" />
+                    </textinputlayout:SfTextInputLayout.LeadingView>
+                </textinputlayout:SfTextInputLayout>
+
+
+                <popuplayout:SfPopupLayout
+                    x:Name="popupLayout"
+                    Grid.Row="1"
+                    Margin="0,30,0,0">
                     <popuplayout:SfPopupLayout.PopupView>
                         <popuplayout:PopupView
                             AnimationMode="Fade"

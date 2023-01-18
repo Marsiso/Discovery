@@ -64,9 +64,9 @@ public sealed class FavouritesPageViewModel : INotifyPropertyChanged
         else
         {
             searchTerm = searchTerm!.ToLower();
+            //var searchTerms = searchTerm.Split(' ');
             temp = new List<PhotoEntity>(photoEntities.Where(photo => photo.IsFavourite is true
-                && photo.Photographer.ToLower().Contains(searchTerm)
-                && photo.Alt.ToLower().Contains(searchTerm)));
+                && (photo.Photographer.ToLower().Contains(searchTerm) || photo.Alt.ToLower().Contains(searchTerm))));
         }
 
         Photos = temp;
