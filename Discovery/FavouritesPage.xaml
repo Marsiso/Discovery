@@ -81,6 +81,7 @@
                                         <buttons:SfButton
                                             BackgroundColor="White"
                                             BorderWidth="0"
+                                            Clicked="SfButton_RemoveFavouriteClicked"
                                             CornerRadius="25"
                                             FontSize="16"
                                             HasShadow="False"

@@ -1,5 +1,8 @@
-﻿using Syncfusion.XForms.Backdrop;
+﻿using Discovery.Models;
+using Syncfusion.XForms.Backdrop;
+using Syncfusion.XForms.Cards;
 using System.ComponentModel;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,6 +12,8 @@ namespace Discovery;
 [DesignTimeVisible(false)]
 public partial class FavouritesPage : SfBackdropPage
 {
+    private PhotoEntity? SelectedPhotoEntity { get; set; } = default!;
+
     public FavouritesPage()
     {
         InitializeComponent();
@@ -43,9 +48,28 @@ public partial class FavouritesPage : SfBackdropPage
 
     private void SfCardLayout_CardTapped(object sender, TappedEventArgs e)
     {
-        if (popupLayout is not null)
+        if (popupLayout is not null && e.Parameter is SfCardView cardView && cardView.BindingContext is PhotoEntity photoEntity)
         {
+            SelectedPhotoEntity = photoEntity;
             popupLayout.IsOpen = true;
+        }
+    }
+
+    private async void SfButton_RemoveFavouriteClicked(object sender, System.EventArgs e)
+    {
+        if (popupLayout is not null && SelectedPhotoEntity is not null)
+        {
+            SelectedPhotoEntity.IsVisible = true;
+            SelectedPhotoEntity.IsFavourite = false;
+            SelectedPhotoEntity.IsBlackListed = false;
+
+            await App.DatabaseService.UpdatePhoto(SelectedPhotoEntity);
+            favouritesPageViewModel.Photos = favouritesPageViewModel.Photos
+                .Where(x => x.Id != SelectedPhotoEntity.Id)
+                .ToList();
+
+            SelectedPhotoEntity = null;
+            popupLayout.IsOpen = false;
         }
     }
 }
