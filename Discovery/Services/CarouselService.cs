@@ -7,9 +7,9 @@ namespace Discovery.Services;
 public class CarouselService
 {
     private const string ApiKey = "563492ad6f91700001000001dfe6486d132a444e9e1aa767ea556fa5";
-    private const string DefaultCategory = "nature";
+    private const string DefaultCategory = "Nature";
 
-    public async Task<PhotoPage> GetAllCategorizedImages(string category, int pageNumber = 1, int pageSize = 30)
+    public async Task<PhotoPage> GetCategorizedPhotos(string category, int pageNumber = 1, int pageSize = 50)
     {
         if (string.IsNullOrEmpty(category))
         {
@@ -19,5 +19,12 @@ public class CarouselService
         var httpClient = new PexelsClient(ApiKey);
 
         return await httpClient.SearchPhotosAsync(query: category, page: pageNumber, pageSize: pageSize);
+    }
+
+    public async Task<PhotoPage> GetCuratedPhotos(int pageNumber = 1, int pageSize = 50)
+    {
+        var httpClient = new PexelsClient(ApiKey);
+
+        return await httpClient.CuratedPhotosAsync(pageSize: pageSize, page: pageNumber);
     }
 }

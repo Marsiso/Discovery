@@ -7,6 +7,7 @@
     xmlns:backdrop="clr-namespace:Syncfusion.XForms.Backdrop;assembly=Syncfusion.SfBackdrop.XForms"
     xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
     xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+    xmlns:datasource="clr-namespace:Syncfusion.DataSource;assembly=Syncfusion.DataSource.Portable"
     xmlns:local="clr-namespace:Discovery.ViewModels"
     xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
     xmlns:textinputlayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
@@ -70,21 +71,36 @@
                         Text="16">
                         <combobox:SfComboBox.ComboBoxSource>
                             <ListCollection:List x:TypeArguments="x:String">
-                                <x:String>nature</x:String>
-                                <x:String>vacation</x:String>
-                                <x:String>travel</x:String>
-                                <x:String>summer</x:String>
-                                <x:String>abstract</x:String>
-                                <x:String>rain</x:String>
-                                <x:String>water</x:String>
-                                <x:String>nature wallpaper</x:String>
-                                <x:String>adventure</x:String>
-                                <x:String>airport</x:String>
-                                <x:String>family vacation</x:String>
-                                <x:String>vaccination</x:String>
-                                <x:String>black and white</x:String>
-                                <x:String>wall</x:String>
-                                <x:String>hotel</x:String>
+                                <x:String>Nature</x:String>
+                                <x:String>Vacation</x:String>
+                                <x:String>Travel</x:String>
+                                <x:String>Summer</x:String>
+                                <x:String>Abstract</x:String>
+                                <x:String>Rain</x:String>
+                                <x:String>Water</x:String>
+                                <x:String>Nature wallpaper</x:String>
+                                <x:String>Adventure</x:String>
+                                <x:String>Airport</x:String>
+                                <x:String>Family vacation</x:String>
+                                <x:String>Vaccination</x:String>
+                                <x:String>Black and white</x:String>
+                                <x:String>Wall</x:String>
+                                <x:String>Hotel</x:String>
+                                <x:String>Forest</x:String>
+                                <x:String>Car</x:String>
+                                <x:String>Flowers</x:String>
+                                <x:String>Technology</x:String>
+                                <x:String>Landscape</x:String>
+                                <x:String>Dark</x:String>
+                                <x:String>City</x:String>
+                                <x:String>Space</x:String>
+                                <x:String>Texture</x:String>
+                                <x:String>Coffe</x:String>
+                                <x:String>House</x:String>
+                                <x:String>Dog</x:String>
+                                <x:String>Winter</x:String>
+                                <x:String>Money</x:String>
+                                <x:String>Office</x:String>
                             </ListCollection:List>
                         </combobox:SfComboBox.ComboBoxSource>
                     </combobox:SfComboBox>
@@ -100,7 +116,20 @@
                     AutoFitMode="DynamicHeight"
                     IsScrollBarVisible="False"
                     ItemSpacing="5,5,5,5"
-                    ItemsSource="{Binding Photos}">
+                    ItemsSource="{Binding Photos}"
+                    LoadMoreCommand="{Binding LoadMoreItemsCommand}"
+                    LoadMoreCommandParameter="{Binding .}"
+                    LoadMoreOption="Manual">
+                    <syncfusion:SfListView.DataSource>
+                        <datasource:DataSource>
+                            <datasource:DataSource.SortDescriptors>
+                                <datasource:SortDescriptor Direction="Ascending" PropertyName="Photographer" />
+                            </datasource:DataSource.SortDescriptors>
+                            <!--<datasource:DataSource.GroupDescriptors>
+                                <datasource:GroupDescriptor PropertyName="Photographer" />
+                            </datasource:DataSource.GroupDescriptors>-->
+                        </datasource:DataSource>
+                    </syncfusion:SfListView.DataSource>
                     <syncfusion:SfListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

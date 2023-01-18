@@ -36,26 +36,18 @@ public partial class HomePage : SfBackdropPage
         }
     }
 
-    private async void ItemsView_OnRemainingItemsThresholdReached(object sender, EventArgs e)
-    {
-        if (homePageViewModel is not null && homePageViewModel.PhotoPage is not null)
-        {
-            /*await mainPageViewModel.GetNextCarouselDataAsync(mainPageViewModel.PhotoPage.page + 1);*/
-        }
-    }
-
     protected override async void OnAppearing()
     {
         var photoEntities = await App.DatabaseService.GetAllPhotos();
         var temp = photoEntities?.Count > 0
-            ? new List<PhotoEntity>(photoEntities)
+            ? new List<PhotoEntity>(photoEntities.Where(x => x.Category == "Curated"))
             : new List<PhotoEntity>();
 
         try
         {
             base.OnAppearing();
 
-            var photoPage = await App.CarouselService.GetAllCategorizedImages("nature");
+            var photoPage = await App.CarouselService.GetCuratedPhotos();
             if (photoPage?.photos?.Count > 0)
             {
                 foreach (var photo in photoPage.photos)
@@ -71,7 +63,7 @@ public partial class HomePage : SfBackdropPage
                         Alt = photo.alt,
                         Url = photo.source.portrait,
                         Photographer = photo.photographer,
-                        Category = "nature"
+                        Category = "Curated"
                     };
 
                     await App.DatabaseService.CreatePhoto(photoEntityToCreate);

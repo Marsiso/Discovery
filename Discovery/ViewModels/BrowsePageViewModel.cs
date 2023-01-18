@@ -15,7 +15,7 @@ namespace Discovery.ViewModels;
 public sealed class BrowsePageViewModel : INotifyPropertyChanged
 {
     private IList<PhotoEntity> photos = new List<PhotoEntity>();
-    private string? searchTerm = "nature";
+    private string? searchTerm = "Nature";
 
     public string? SearchTerm
     {
@@ -25,7 +25,7 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
             if (searchTerm != value)
             {
                 searchTerm = value;
-                _ = GetCarouselItemsByCategory(value);
+                _ = GetCategorizedPhotos(value);
 
                 OnPropertyChanged(nameof(SearchTerm));
             }
@@ -54,63 +54,67 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
     public Command<object> AddToFavouritesCommand { get; set; }
     public Command<object> AddToBlacklistCommand { get; set; }
     public Command<object> DownloadCommand { get; set; }
+    public Command<object> LoadMoreItemsCommand { get; set; }
 
     public BrowsePageViewModel()
     {
         AddToFavouritesCommand = new Command<object>(AddToFavouritesCommandMethod);
         AddToBlacklistCommand = new Command<object>(AddToBlacklistCommandMethod);
         DownloadCommand = new Command<object>(DownloadCommandMethod);
+        LoadMoreItemsCommand = new Command<object>(LoadMoreItemsCommandMethod);
     }
 
-    private async Task GetCarouselItemsByCategory(string? searchTerm)
+    public async Task GetCategorizedPhotos(string? searchTerm = "Nature", int pageNumber = 1)
     {
         if (string.IsNullOrEmpty(searchTerm))
         {
-            searchTerm = "nature";
+            searchTerm = "Nature";
+        }
+
+        if (pageNumber < 1)
+        {
+            return;
         }
 
         var photoEntities = await App.DatabaseService.GetAllPhotos();
-        var temp = new List<PhotoEntity>(photoEntities.Where(x => x.IsVisible &&
-        x.IsBlackListed is false &&
-        x.IsFavourite is false &&
-        x.Category == searchTerm));
-        var pageNumber = 1;
+        var temp = new List<PhotoEntity>(photoEntities.Where(photo => photo.IsVisible &&
+            photo.IsBlackListed is false &&
+            photo.IsFavourite is false &&
+            photo.Category == searchTerm));
 
         try
         {
             while (temp.Count < 50)
             {
-                var photoPage = await App.CarouselService.GetAllCategorizedImages(category: searchTerm, pageNumber: pageNumber);
-                if (photoPage is null || photoPage.photos is null)
+                var photoPage = await App.CarouselService.GetCategorizedPhotos(category: searchTerm!, pageNumber: pageNumber);
+                if (photoPage is null
+                    || photoPage.photos is null
+                    || photoPage.photos.Count == 0)
                 {
                     break;
                 }
 
-                if (photoPage?.photos?.Count > 0)
+                foreach (var photo in photoPage.photos)
                 {
-                    foreach (var photo in photoPage.photos)
+                    if (photoEntities?.Count > 0 && photoEntities.Any(x => x.Id == photo.id))
                     {
-                        if (photoEntities?.Count > 0 && photoEntities.Any(x => x.Id == photo.id))
-                        {
-                            continue;
-                        }
-
-                        var photoEntityToCreate = new PhotoEntity
-                        {
-                            Id = photo.id,
-                            Alt = photo.alt,
-                            Url = photo.source.portrait,
-                            Photographer = photo.photographer,
-                            Category = searchTerm
-                        };
-
-                        await App.DatabaseService.CreatePhoto(photoEntityToCreate);
-                        temp.Add(photoEntityToCreate);
+                        continue;
                     }
 
-                    pageNumber++;
+                    var photoEntityToCreate = new PhotoEntity
+                    {
+                        Id = photo.id,
+                        Alt = photo.alt,
+                        Url = photo.source.portrait,
+                        Photographer = photo.photographer,
+                        Category = searchTerm
+                    };
+
+                    await App.DatabaseService.CreatePhoto(photoEntityToCreate);
+                    temp.Add(photoEntityToCreate);
                 }
 
+                pageNumber++;
                 PhotoPage = photoPage;
             }
         }
@@ -151,6 +155,8 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
             GetPhotoFromUrl(photo.Id.ToString(), photo.Url);
         }
     }
+
+    private async void LoadMoreItemsCommandMethod(object obj) => await GetCategorizedPhotos(this.SearchTerm, PhotoPage is not null ? PhotoPage.page + 1 : 1);
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

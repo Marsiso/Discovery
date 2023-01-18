@@ -54,11 +54,7 @@
                         Text="Discover"
                         TextColor="Black" />
 
-                    <CarouselView
-                        IsScrollAnimated="True"
-                        ItemsSource="{Binding Photos}"
-                        RemainingItemsThreshold="10"
-                        RemainingItemsThresholdReached="ItemsView_OnRemainingItemsThresholdReached">
+                    <CarouselView IsScrollAnimated="True" ItemsSource="{Binding Photos}">
                         <CarouselView.ItemTemplate>
                             <DataTemplate>
                                 <yummy:PancakeView

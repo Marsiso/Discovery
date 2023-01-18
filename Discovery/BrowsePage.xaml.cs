@@ -1,7 +1,4 @@
-﻿using Discovery.Models;
-using Syncfusion.XForms.Backdrop;
-using System;
-using System.Collections.Generic;
+﻿using Syncfusion.XForms.Backdrop;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -38,19 +35,8 @@ public partial class BrowsePage : SfBackdropPage
 
     protected override async void OnAppearing()
     {
-        try
-        {
-            base.OnAppearing();
+        base.OnAppearing();
 
-            var photoPage = await App.CarouselService.GetAllCategorizedImages("nature");
-            var photoEntities = await App.DatabaseService.GetAllPhotos();
-            var temp = photoEntities?.Count > 0
-                ? new List<PhotoEntity>(photoEntities)
-                : new List<PhotoEntity>();
-
-            browsePageViewModel.PhotoPage = photoPage;
-            browsePageViewModel.Photos = temp;
-        }
-        catch (Exception ex) { }
+        await browsePageViewModel.GetCategorizedPhotos();
     }
 }
