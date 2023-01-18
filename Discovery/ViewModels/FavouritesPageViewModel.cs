@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace Discovery.ViewModels;
 
@@ -50,15 +49,8 @@ public sealed class FavouritesPageViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public Command<object> RemoveFromFavouritesCommand { get; set; }
-    public Command<object> AddToBlacklistCommand { get; set; }
-    public Command<object> DownloadCommand { get; set; }
-
     public FavouritesPageViewModel()
     {
-        RemoveFromFavouritesCommand = new Command<object>(RemoveFromFavouritesCommandMethod);
-        AddToBlacklistCommand = new Command<object>(AddToBlacklistCommandMethod);
-        DownloadCommand = new Command<object>(DownloadCommandMethod);
     }
 
     public async Task GetFavouritePhotos(string? searchTerm = default!)
@@ -80,47 +72,12 @@ public sealed class FavouritesPageViewModel : INotifyPropertyChanged
         Photos = temp;
     }
 
-    private async void RemoveFromFavouritesCommandMethod(object obj)
-    {
-        var photo = obj as PhotoEntity;
-        if (photo is not null)
-        {
-            photo.IsVisible = true;
-            photo.IsFavourite = false;
-            photo.IsBlackListed = false;
-            await App.DatabaseService.UpdatePhoto(photo);
-            Photos = Photos.Where(x => x.Id != photo.Id).ToList();
-        }
-    }
-
-    private async void AddToBlacklistCommandMethod(object obj)
-    {
-        var photo = obj as PhotoEntity;
-        if (photo is not null)
-        {
-            photo.IsVisible = false;
-            photo.IsFavourite = false;
-            photo.IsBlackListed = true;
-            await App.DatabaseService.UpdatePhoto(photo);
-            Photos = Photos.Where(x => x.Id != photo.Id).ToList();
-        }
-    }
-
-    private void DownloadCommandMethod(object obj)
-    {
-        var photo = obj as PhotoEntity;
-        if (photo is not null)
-        {
-            GetPhotoFromUrl(photo.Id.ToString(), photo.Url);
-        }
-    }
-
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    private void GetPhotoFromUrl(string photoName, string url)
+    public void GetPhotoFromUrl(string photoName, string url)
     {
         using var webClient = new WebClient();
         var imageBytes = webClient.DownloadData(url);

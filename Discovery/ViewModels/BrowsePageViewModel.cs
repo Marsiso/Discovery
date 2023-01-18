@@ -77,9 +77,9 @@ public sealed class BrowsePageViewModel : INotifyPropertyChanged
         }
 
         var photoEntities = await App.DatabaseService.GetAllPhotos();
-        var temp = new List<PhotoEntity>(photoEntities.Where(photo => photo.IsVisible &&
-            photo.IsBlackListed is false &&
-            photo.IsFavourite is false &&
+        var temp = new List<PhotoEntity>(photoEntities.Where(photo =>
+            photo.IsBlackListed == false &&
+            photo.IsFavourite == false &&
             photo.Category == searchTerm));
 
         try

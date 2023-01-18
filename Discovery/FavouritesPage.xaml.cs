@@ -72,4 +72,33 @@ public partial class FavouritesPage : SfBackdropPage
             popupLayout.IsOpen = false;
         }
     }
+
+    private async void SfButton_BlacklistPhotoClicked(object sender, System.EventArgs e)
+    {
+        if (popupLayout is not null && SelectedPhotoEntity is not null)
+        {
+            SelectedPhotoEntity.IsVisible = false;
+            SelectedPhotoEntity.IsFavourite = false;
+            SelectedPhotoEntity.IsBlackListed = true;
+
+            await App.DatabaseService.UpdatePhoto(SelectedPhotoEntity);
+            favouritesPageViewModel.Photos = favouritesPageViewModel.Photos
+                .Where(x => x.Id != SelectedPhotoEntity.Id)
+                .ToList();
+
+            SelectedPhotoEntity = null;
+            popupLayout.IsOpen = false;
+        }
+    }
+
+    private void SfButton_DownloadPhotoClicked(object sender, System.EventArgs e)
+    {
+        if (popupLayout is not null && SelectedPhotoEntity is not null)
+        {
+            favouritesPageViewModel.GetPhotoFromUrl(SelectedPhotoEntity.Id.ToString(), SelectedPhotoEntity.Url);
+
+            SelectedPhotoEntity = null;
+            popupLayout.IsOpen = false;
+        }
+    }
 }
