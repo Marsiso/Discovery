@@ -7,7 +7,11 @@ using Discovery.Android;
 
 namespace Discovery.Androids
 {
-    [Activity(Theme = "@style/Theme.Splash", MainLauncher = true, NoHistory = true, Label = "Discovery")]
+    [Activity(Theme = "@style/Theme.Splash",
+        MainLauncher = true,
+        Icon = "@mipmap/icon",
+        NoHistory = true,
+        Label = "Discovery")]
     public class SplashActivity : Activity, Animator.IAnimatorListener
     {
         public void OnAnimationCancel(Animator animation)
