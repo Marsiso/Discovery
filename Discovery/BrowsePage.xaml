@@ -11,7 +11,7 @@
     xmlns:local="clr-namespace:Discovery.ViewModels"
     xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
     xmlns:textinputlayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
-    Title="Menu"
+    Title="Browse"
     BackLayerRevealOption="Auto"
     Background="Black"
     IsBackLayerRevealed="False">

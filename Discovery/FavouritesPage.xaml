@@ -11,7 +11,7 @@
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:popuplayout="clr-namespace:Syncfusion.XForms.PopupLayout;assembly=Syncfusion.SfPopupLayout.XForms"
     xmlns:textinputlayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
-    Title="Menu"
+    Title="Favourites"
     BackLayerRevealOption="Auto"
     Background="Black"
     IsBackLayerRevealed="False">
@@ -210,7 +210,7 @@
                                                             Aspect="AspectFit"
                                                             HeightRequest="20"
                                                             HorizontalOptions="Start"
-                                                            Source="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png" />
+                                                            Source="https://cdn4.iconfinder.com/data/icons/people-avatar-filled-outline/64/girl_ponytail_people_woman_teenager_avatar_female-1024.png" />
                                                         <Label
                                                             FontAttributes="None"
                                                             FontSize="16"
